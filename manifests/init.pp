@@ -8,14 +8,12 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class mount (
-  $package_name = $::mount::params::package_name,
-  $service_name = $::mount::params::service_name,
+  $fstab_file = $::mount::params::fstab_file,
+  $root_group = $::mount::params::root_group,
 ) inherits ::mount::params {
 
   # validate parameters here
 
-  class { '::mount::install': } ->
-  class { '::mount::config': } ~>
-  class { '::mount::service': } ->
+  class { '::mount::config': } ->
   Class['::mount']
 }

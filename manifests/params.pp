@@ -4,17 +4,22 @@
 # It sets variables according to platform.
 #
 class mount::params {
-  case $::osfamily {
-    'Debian': {
-      $package_name = 'mount'
-      $service_name = 'mount'
-    }
-    'RedHat', 'Amazon': {
-      $package_name = 'mount'
-      $service_name = 'mount'
+
+  $fstab_file = '/etc/fstab'
+
+  $root_group = $::operatingsystem ? {
+    /(FreeBSD|Solaris)/ => 'wheel',
+    default             => 'root',
+  }
+
+  case $::operatingsystem {
+    'Debian', 'Ubuntu',
+    'RedHat', 'CentOS',
+    'Amazon': {
     }
     default: {
       fail("${::operatingsystem} not supported")
     }
   }
+
 }
